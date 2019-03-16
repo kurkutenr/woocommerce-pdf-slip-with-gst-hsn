@@ -1,3 +1,10 @@
+<!--
+
+@author : Narayan Kurkute
+@email : kurkutenarayan@gmail.com
+
+-->
+
 <?php do_action( 'wpo_wcpdf_before_document', $this->type, $this->order ); ?>
 
 <div class="widthInvoice">
@@ -87,6 +94,9 @@
 		$tax_slabs = array();
 		$tax_labels = array();
 		$price_subtotal = 0;
+		$discount_amount = 0;
+		$discount_amount_val = 0;
+		$total_amount = 0;
 	?>
 	<table class="order-details">
 		<thead>
@@ -128,6 +138,10 @@
 								$order_id =$this->get_order_number();
 								$order = wc_get_order($order_id);
 								$tax_count = count($order->get_items('tax'));
+								$product = $item['product'];
+								$discount_amount = $order-> get_discount_to_display();
+								$discount_amount_val = $order-> get_discount_tax() + $order-> get_discount_total();
+								$total_amount = $order->get_total();
 							?>
 						
 					</dl>
@@ -253,6 +267,13 @@
 								<th class="description"><?php echo $final_total["cart_subtotal"]['label']; ?></th>
 								<td class="price"><span class="totals-price"><?php echo $price_subtotal; ?></span></td>
 							</tr>
+
+							<tr class="cart_subtotal">
+								<td class="no-borders"></td>
+								<th class="description"> Discount </th>
+								<td class="price"><span class="totals-price">-<?php echo $discount_amount; ?></span></td>
+							</tr>
+
 							<?php foreach( $tax_labels as $key => $taxslab ) : ?>
 
 							<tr class="cart_subtotal">
@@ -265,7 +286,7 @@
 							<tr class="order_total">
 								<td class="no-borders"></td>
 								<th class="description"><?php echo $final_total["order_total"]['label']; ?></th>
-								<td class="price"><span class="totals-price"><?php echo  $final_total["cart_subtotal"]['value']; ?></span></td>
+								<td class="price"><span class="totals-price"><?php echo wc_price($total_amount); ?></span></td>
 							</tr>
 						</tfoot>
 					</table>
@@ -281,6 +302,7 @@
 							<tr class="">
 								<td class="no-borders"> 
 										Terms : Payment 100% in advance <br>
+										Validity : 7 Days<br>
 
 								</td>
 							</tr>
