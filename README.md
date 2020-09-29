@@ -11,18 +11,25 @@ wp-content/themes/<themename>/woocommerce/pdf/<yourtemplatename>
 If you want only specific fields in invoice - use below code and add required attributes the list
 
 ///////////////////////////////////////////////////
+
 $requiredAttr = array("HSN");
 
 
+
 foreach( $p_attributes as $attKey => $attValue ) {
+
 	if (in_array($attKey, $requiredAttr)) {
 ?>
 	
 	<dt class="weight"><?php 	echo $attValue['name'] ; ?> : </dt>
 	<dd class="weight"><?php 	echo  $attValue['options'][0] ; ?></dd>
 
+
 <?php 
+
 	}} 
+
 ?>
+
 
 ///////////////////////////////////////////////////
